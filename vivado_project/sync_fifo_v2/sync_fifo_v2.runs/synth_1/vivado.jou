@@ -1,0 +1,13 @@
+#-----------------------------------------------------------
+# Vivado v2022.1 (64-bit)
+# SW Build 3526262 on Mon Apr 18 15:48:16 MDT 2022
+# IP Build 3524634 on Mon Apr 18 20:55:01 MDT 2022
+# Start of session at: Sun Jun  5 21:47:02 2022
+# Process ID: 28368
+# Current directory: C:/Users/Andrew/sync_fifo_v2/sync_fifo_v2.runs/synth_1
+# Command line: vivado.exe -log xobus_phy_top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source xobus_phy_top.tcl
+# Log file: C:/Users/Andrew/sync_fifo_v2/sync_fifo_v2.runs/synth_1/xobus_phy_top.vds
+# Journal file: C:/Users/Andrew/sync_fifo_v2/sync_fifo_v2.runs/synth_1\vivado.jou
+# Running On: Devsam, OS: Windows, CPU Frequency: 3500 MHz, CPU Physical cores: 6, Host memory: 17075 MB
+#-----------------------------------------------------------
+source xobus_phy_top.tcl -notrace

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<wave_config>
+	<wave_state>
+	</wave_state>
+	<db_ref_list>
+		<db_ref path="C:/Users/Andrew/sync_fifo_v2/sync_fifo_v2.hw/hw_1/wave/hw_ila_data_2/hw_ila_data_2.wdb" id="1" type="auto">
+			<top_modules>
+				<top_module name="top">
+				</top_module>
+			</top_modules>
+		</db_ref>
+	</db_ref_list>
+	<WVObjectSize size="1">
+	</WVObjectSize>
+	<wvobject fp_name="rst_IBUF" type="logic" db_ref_id="1">
+		<obj_property name="ElementShortName">rst_IBUF</obj_property>
+		<obj_property name="ObjectShortName">rst_IBUF</obj_property>
+		<obj_property name="DisplayName">FullPathName</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+</wave_config>
+

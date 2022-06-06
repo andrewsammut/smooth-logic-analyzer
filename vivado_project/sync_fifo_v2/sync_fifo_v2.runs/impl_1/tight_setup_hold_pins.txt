@@ -1,0 +1,32 @@
++=============================================================+========================+==========================================================+
+| Launch Setup Clock                                          | Launch Hold Clock      | Pin                                                      |
++=============================================================+========================+==========================================================+
+| clkout                                                      | sys_clk_pin            | xobuslite_phy/data_o_q_reg[5]/D                          |
+| clkout                                                      | sys_clk_pin            | xobuslite_phy/data_o_q_reg[1]/D                          |
+| clkout                                                      | sys_clk_pin            | xobuslite_phy/data_o_q_reg[3]/D                          |
+| clkout                                                      | sys_clk_pin            | xobuslite_phy/data_o_q_reg[0]/D                          |
+| clkout                                                      | sys_clk_pin            | xobuslite_phy/data_o_q_reg[6]/D                          |
+| clkout                                                      | sys_clk_pin            | xobuslite_phy/data_o_q_reg[7]/D                          |
+| clkout                                                      | sys_clk_pin            | xobuslite_phy/data_o_q_reg[4]/D                          |
+| clkout                                                      | sys_clk_pin            | xobuslite_phy/data_o_q_reg[2]/D                          |
+| xobuslite_phy/outgoing_fifo/graycounter1_q[5]               | xobuslite_phy/state[1] | xobuslite_phy/FSM_sequential_next_state_reg[2]/D         |
+| xobuslite_phy/incoming_fifo/multiregimpl1_regs1_reg_n_0_[1] | xobuslite_phy/state[2] | xobuslite_phy/FSM_sequential_next_state_reg[1]/D         |
+| xobuslite_phy/state[2]                                      | xobuslite_phy/state[1] | xobuslite_phy/FSM_sequential_next_state_reg[0]/D         |
+| xobuslite_phy/incoming_fifo/multiregimpl1_regs1_reg_n_0_[1] | xobuslite_phy/state[2] | xobuslite_phy/rd_n_s_reg/D                               |
+| xobuslite_phy/incoming_fifo/multiregimpl1_regs1_reg_n_0_[1] | xobuslite_phy/state[2] | xobuslite_phy/oe_n_s_reg/D                               |
+| xobuslite_phy/state[2]                                      | xobuslite_phy/state[1] | xobuslite_phy/infifo_we_reg/D                            |
+| xobuslite_phy/outgoing_fifo/graycounter1_q[5]               | xobuslite_phy/state[2] | xobuslite_phy/data_en_q_reg/D                            |
+| xobuslite_phy/outgoing_fifo/graycounter1_q[5]               | xobuslite_phy/state[1] | xobuslite_phy/wr_n_s_reg/D                               |
+| sys_clk_pin                                                 | sys_clk_pin            | xobuslite_phy/incoming_fifo/multiregimpl1_regs0_reg[0]/D |
+| sys_clk_pin                                                 | sys_clk_pin            | xobuslite_phy/outgoing_fifo/multiregimpl0_regs0_reg[1]/D |
+| sys_clk_pin                                                 | sys_clk_pin            | xobuslite_phy/outgoing_fifo/multiregimpl0_regs0_reg[0]/D |
+| sys_clk_pin                                                 | sys_clk_pin            | xobuslite_phy/outgoing_fifo/multiregimpl0_regs0_reg[5]/D |
+| sys_clk_pin                                                 | sys_clk_pin            | xobuslite_phy/outgoing_fifo/multiregimpl0_regs0_reg[4]/D |
+| sys_clk_pin                                                 | sys_clk_pin            | xobuslite_phy/outgoing_fifo/multiregimpl0_regs0_reg[2]/D |
+| sys_clk_pin                                                 | sys_clk_pin            | xobuslite_phy/incoming_fifo/multiregimpl1_regs0_reg[5]/D |
+| sys_clk_pin                                                 | sys_clk_pin            | xobuslite_phy/incoming_fifo/multiregimpl1_regs0_reg[1]/D |
+| sys_clk_pin                                                 | sys_clk_pin            | xobuslite_phy/incoming_fifo/multiregimpl1_regs0_reg[3]/D |
+| sys_clk_pin                                                 | sys_clk_pin            | xobuslite_phy/incoming_fifo/multiregimpl1_regs0_reg[4]/D |
+| sys_clk_pin                                                 | sys_clk_pin            | xobuslite_phy/incoming_fifo/multiregimpl1_regs0_reg[2]/D |
+| sys_clk_pin                                                 | sys_clk_pin            | xobuslite_phy/outgoing_fifo/multiregimpl0_regs0_reg[3]/D |
++-------------------------------------------------------------+------------------------+----------------------------------------------------------+
