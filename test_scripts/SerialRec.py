@@ -5,7 +5,7 @@ import serial
 import sys
 import os
 
-os.remove('example.txt')
+os.remove('data.txt')
 
 ser = serial.Serial(
         port='/dev/ttyUSB0',
