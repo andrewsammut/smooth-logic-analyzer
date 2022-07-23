@@ -5,15 +5,18 @@ import serial
 from threading import Thread
 from queue import Queue
 import time
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+#from matplotlib.widgets import slider
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 
+pause = False
 thread = False
 xs = []
 ys = []
-global q, xcount
+global q, xcount, slide
 q = Queue()
-x = 0
+xval = 0
 xcount = 0
+x = 0
 
 WINDOWSIZE = 50
 
@@ -27,32 +30,33 @@ ser = serial.Serial(
 )
 
 def graph():
-    print(q.qsize())
-    global x
-    
-    if q.empty() == False:
-        for line in range(q.qsize()):
-            data = q.get_nowait()
-            x,y = data.split(',')
-            xs.append(float(x))
-            ys.append(float(y))
+    global xval
+    global pause
 
-    ax1.clear()
-    ax1.plot(xs, ys, drawstyle='steps-pre')
-    canvas.draw()
-    if len(xs) != 0:
+    if pause == False:
+        print(q.qsize())
         
-        if (float(x) - xs[0]) <WINDOWSIZE:
-            plt.xlim([0,float(x)])
-        else:
-            plt.xlim([(float(x) - WINDOWSIZE), float(x)])
+        if q.empty() == False:
+            for line in range(q.qsize()):
+                data = q.get_nowait()
+                x,y = data.split(',')
+                xs.append(float(x))
+                ys.append(float(y))
+
+        ax1.clear()
+        ax1.plot(xs, ys, drawstyle='steps-pre')
+    
+        if len(xs) != 0: 
+            scale(x)
+
+    canvas.draw()
 
 def readSerial():
     global xcount, pause, thread
     thread = True
     
     while 1:
-        #if pause == False:
+        if pause == False:
             r=ser.read(8)
 
             if r > bytes(0b1):
@@ -69,7 +73,6 @@ def readSerial():
                 q.put(s)
                 xcount = xcount +1
 
-
 def main():
     global thread
     if thread == False: 
@@ -79,34 +82,54 @@ def main():
     graph()
     wind.after(50, main)
 
+def scale(x):
+    
+    if (float(x) - xs[0]) <WINDOWSIZE:
+        plt.xlim([0,float(x)])
+    else:
+        plt.xlim([(float(x) - WINDOWSIZE), float(x)])
+
+def Pause():
+    global pause
+    global slide
+    try:
+        slide.destroy()
+        xval = xs[-1]
+        slide = tk.Scale(wind, from_=0, to=xval, length=700, orient='horizontal', command=slideValue)
+        slide.set(xval)
+
+    except:
+        xval = xs[-1]
+        slide = tk.Scale(wind, from_=0, to=xval, length=700, orient='horizontal', command=slideValue)
+        slide.set(xval)
+    
+    if pause == True:
+        pause = False
+    else:
+        pause = True
+        slide.pack()
+
+def slideValue(event):
+    scale(slide.get())
+
 
 wind = tk.Tk()
 wind.geometry("800x500")
-
 output_text = "Smooth logic analyzer \n"
-output=""
-crvar = tk.StringVar(wind)
-crvar.set('')
-quvar = tk.StringVar(wind)
-quvar.set('')
-
-
 wind.title("SmoothLogic")
 input_frame=tk.Frame(wind, height=300, width=30, relief=tk.RAISED, bd=4)
 
 style.use('fivethirtyeight')
-fig, ax1 = plt.subplots()
+fig = plt.figure(figsize=(8,3))
+ax1 = fig.add_subplot(1,1,1)
 plt.subplots_adjust(bottom=0.25)
 
+tk.Button(wind, text="Quit", command=wind.quit).pack()
 
-#ax1.plot(xs,ys, drawstyle='steps-pre')
-canvas = FigureCanvasTkAgg(fig,master = wind)  
+canvas = FigureCanvasTkAgg(fig, wind)
 canvas.get_tk_widget().pack()
-#plotFrame = tk.Frame(master=wind, relief=tk.GROOVE, bd=4)
-#plotFrame.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
-#lblplot=tk.Label(master=plotFrame, text="SmoothLogic Plot", font="Arial 16")
-#lblplot.grid(row=0, column=0, padx=0, pady=5, sticky="nsew")
-
+butt = tk.Button(master = wind, command=Pause, height=1, width=5, text = "Pause")
+butt.pack()
 
 main()
 wind.mainloop()
