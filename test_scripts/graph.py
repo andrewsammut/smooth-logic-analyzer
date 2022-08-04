@@ -1,12 +1,17 @@
 import tkinter as tk
 import matplotlib.pyplot as plt
 from matplotlib import style
-import serial
+#import serial
 from threading import Thread
 from queue import Queue
-import time
-#from matplotlib.widgets import slider
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
+from __future__ import print_function
+import time
+import random
+
+import ftd2xx
+
+BLOCK_LEN = 2048 * 32
 
 pause = False
 thread = False
@@ -20,14 +25,42 @@ x = 0
 
 WINDOWSIZE = 50
 
-ser = serial.Serial(
-    port='/dev/ttyUSB0',
-    baudrate= 115200,
-    parity=serial.PARITY_NONE,
-    stopbits=serial.STOPBITS_ONE,
-    bytesize=serial.EIGHTBITS,
-    timeout=1
-)
+def init():
+ dev = ftd2xx.openEx(b'FT7OUAO9',1)
+ time.sleep(0.1)
+ dev.setTimeouts(5000, 5000)
+ time.sleep(0.1)
+ dev.setBitMode(0xff, 0x00)
+ time.sleep(0.1)
+ dev.setBitMode(0xff, 0x40)
+ time.sleep(0.1)
+ dev.setUSBParameters(0x10000, 0x10000)
+ time.sleep(0.1)
+ dev.setLatencyTimer(2)
+ time.sleep(0.1)
+ dev.setFlowControl(ftd2xx.defines.FLOW_RTS_CTS, 0, 0)
+ time.sleep(0.1)
+ dev.purge(ftd2xx.defines.PURGE_RX)
+ time.sleep(0.1)
+ dev.purge(ftd2xx.defines.PURGE_TX)
+ time.sleep(0.1)
+ return dev
+
+dev = init()
+print("\nDevice Details :")
+print("Serial : " , dev.getDeviceInfo()['serial'])
+print("Type : " , dev.getDeviceInfo()['type'])
+print("ID : " , dev.getDeviceInfo()['id'])
+print("Description : " , dev.getDeviceInfo()['description'])
+
+#ser = serial.Serial(
+#    port='/dev/ttyUSB0',
+#    baudrate= 115200,
+#    parity=serial.PARITY_NONE,
+#    stopbits=serial.STOPBITS_ONE,
+#    bytesize=serial.EIGHTBITS,
+#    timeout=1
+#)
 
 def graph():
     global xval
@@ -57,7 +90,7 @@ def readSerial():
     
     while 1:
         if pause == False:
-            r=ser.read(8)
+            r=dev.read(1)
 
             if r > bytes(0b1):
                 h = int(r,2)
